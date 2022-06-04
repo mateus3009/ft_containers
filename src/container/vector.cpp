@@ -373,3 +373,23 @@ TEST(vector, pop_back)
     ASSERT(v.capacity() == 10);
 }
 
+TEST(vector, reserve_under_capacity)
+{
+    NS::vector<int> v(42);
+
+    v.reserve(10);
+
+    ASSERT(v.size() == 42);
+    ASSERT(v.capacity() == 42);
+}
+
+TEST(vector, reserve_over_capacity)
+{
+    NS::vector<int> v(20);
+
+    v.reserve(50);
+
+    ASSERT(v.size() == 20);
+    ASSERT(v.capacity() == 50);
+}
+

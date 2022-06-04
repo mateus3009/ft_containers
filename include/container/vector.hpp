@@ -85,6 +85,20 @@ namespace ft
 
         bool empty() const { return _finish == _start; };
 
+        void reserve(size_type n)
+        {
+            const size_type _capacity = capacity();
+            if (n <= _capacity)
+                return ;
+
+            const pointer new_start = _alloc.allocate(n);
+            const pointer new_finish = std::uninitialized_copy(_start, _finish, new_start);
+            _alloc.deallocate(_start, _capacity);
+            _start = new_start;
+            _finish = new_finish;
+            _end_of_storage = _start + n;
+        };
+
         reference operator[](size_type n) { return _start[n]; };
 
         const_reference operator[](size_type n) const { return _start[n]; };
