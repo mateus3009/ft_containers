@@ -328,3 +328,39 @@ TEST(vector, swap)
     ASSERT(v2.front() == 42);
 }
 
+TEST(vector, push_back)
+{
+    NS::vector<int> v(1, 42);
+
+    v.push_back(33);
+
+    ASSERT(v.size() == 2);
+    ASSERT(v.capacity() == 2);
+    ASSERT(v.back() == 33);
+}
+
+TEST(vector, push_back_resize)
+{
+    NS::vector<int> v;
+
+    ASSERT(v.size() == 0);
+    ASSERT(v.capacity() == 0);
+
+    v.push_back(42);
+
+    ASSERT(v.size() == 1);
+    ASSERT(v.capacity() == 1);
+    ASSERT(v.back() == 42);
+
+    v.push_back(33);
+    ASSERT(v.size() == 2);
+    ASSERT(v.capacity() == 2);
+    ASSERT(v.back() == 33);
+
+    v.push_back(22);
+    ASSERT(v.size() == 3);
+    ASSERT(v.capacity() == 4);
+    ASSERT(v.back() == 22);
+}
+
+

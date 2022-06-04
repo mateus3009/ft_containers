@@ -111,6 +111,23 @@ namespace ft
 
         const_reference back() const { return _finish[-1]; };
 
+        void push_back(const_reference val)
+        {
+            const size_type _capacity = capacity();
+            if (size() == _capacity)
+            {
+                const size_type new_capacity = _capacity == 0 ? 1 : _capacity * 2;
+                const pointer new_start = _alloc.allocate(new_capacity);
+                const pointer new_finish = std::uninitialized_copy(_start, _finish, new_start);
+                _alloc.deallocate(_start, _capacity);
+                _start = new_start;
+                _finish = new_finish;
+                _end_of_storage = _start + new_capacity;
+            }
+            *_finish = val;
+            ++_finish;
+        }
+
         void swap(ft::vector<value_type> &other)
         {
             std::swap(_start, other._start);
