@@ -292,5 +292,23 @@ TEST(vector, get_allocator)
     ASSERT(v.get_allocator() == alloc);
 }
 
+TEST(vector, clear)
+{
+    NS::vector<int> v(10, 42);
 
+    v.clear();
+
+    ASSERT(v.size() == 0);
+    ASSERT(v.capacity() == 10);
+}
+
+TEST(vector, clear_empty)
+{
+    NS::vector<int> v;
+
+    v.clear();
+
+    ASSERT(v.size() == 0);
+    ASSERT(v.capacity() == 0);
+}
 

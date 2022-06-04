@@ -111,6 +111,8 @@ namespace ft
 
         const_reference back() const { return _finish[-1]; };
 
+        void clear() { _finish = _start; };
+
         allocator_type get_allocator() const { return _alloc; };
 
     private:
