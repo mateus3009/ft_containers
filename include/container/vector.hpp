@@ -111,6 +111,13 @@ namespace ft
 
         const_reference back() const { return _finish[-1]; };
 
+        void swap(ft::vector<value_type> &other)
+        {
+            std::swap(_start, other._start);
+            std::swap(_finish, other._finish);
+            std::swap(_end_of_storage, other._end_of_storage);
+        };
+
         void clear() { _finish = _start; };
 
         allocator_type get_allocator() const { return _alloc; };

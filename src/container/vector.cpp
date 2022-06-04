@@ -312,3 +312,19 @@ TEST(vector, clear_empty)
     ASSERT(v.capacity() == 0);
 }
 
+TEST(vector, swap)
+{
+    NS::vector<int> v1(10, 42);
+    NS::vector<int> v2(20, 33);
+
+    v1.swap(v2);
+
+    ASSERT(v1.size() == 20);
+    ASSERT(v1.capacity() == 20);
+    ASSERT(v1.front() == 33);
+
+    ASSERT(v2.size() == 10);
+    ASSERT(v2.capacity() == 10);
+    ASSERT(v2.front() == 42);
+}
+
