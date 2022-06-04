@@ -282,3 +282,15 @@ TEST(vector, resize_over_capacity_with_value)
     for (int index = 10; index < 20; ++index)
         ASSERT(v[index] == 12);
 }
+
+TEST(vector, get_allocator)
+{
+    std::allocator<int> alloc;
+
+    NS::vector<int> v(120, 12, alloc);
+
+    ASSERT(v.get_allocator() == alloc);
+}
+
+
+
