@@ -116,4 +116,97 @@ TEST(vector, operator_bracket)
         ASSERT(v[index] == 42);
 }
 
+TEST(vector, operator_bracket_const)
+{
+    NS::vector<int> v(10, 42);
 
+    for (int index = 0; index < 10; ++index)
+    {
+        NS::vector<int>::const_reference c = v[index];
+        ASSERT(c == 42);
+    }
+}
+
+TEST(vector, at)
+{
+    NS::vector<int> v(10, 42);
+
+    for (int index = 0; index < 10; ++index)
+        ASSERT(v.at(index) == 42);
+}
+
+TEST(vector, at_const)
+{
+    NS::vector<int> v(10, 42);
+
+    for (int index = 0; index < 10; ++index)
+    {
+        NS::vector<int>::const_reference c = v.at(index);
+        ASSERT(c == 42);
+    }
+}
+
+TEST(vector, at_out_of_range)
+{
+    NS::vector<int> v(10, 42);
+
+    try
+    {
+        v.at(10);
+        ASSERT(false);
+    }
+    catch(const std::out_of_range& e)
+    {
+        ASSERT(true)
+    }
+}
+
+TEST(vector, at_out_of_range_const)
+{
+    NS::vector<int> v(10, 42);
+
+    try
+    {
+        NS::vector<int>::const_reference k = v.at(10);
+        (void) k;
+        ASSERT(false);
+    }
+    catch(const std::out_of_range& e)
+    {
+        ASSERT(true)
+    }
+}
+
+
+TEST(vector, front)
+{
+    NS::vector<int> v(10, 42);
+
+    ASSERT(v.front() == 42);
+}
+
+TEST(vector, front_const)
+{
+    NS::vector<int> v(10, 42);
+
+    NS::vector<int>::const_reference c = v.front();
+
+    ASSERT(c == 42);
+}
+
+
+TEST(vector, back)
+{
+    NS::vector<int> v(10, 42);
+
+    ASSERT(v.back() == 42);
+}
+
+TEST(vector, back_const)
+{
+    NS::vector<int> v(10, 42);
+
+    NS::vector<int>::const_reference c = v.back();
+
+    ASSERT(c == 42);
+}
