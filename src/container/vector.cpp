@@ -363,4 +363,13 @@ TEST(vector, push_back_resize)
     ASSERT(v.back() == 22);
 }
 
+TEST(vector, pop_back)
+{
+    NS::vector<int> v(10, 42);
+
+    v.pop_back();
+
+    ASSERT(v.size() == 9);
+    ASSERT(v.capacity() == 10);
+}
 

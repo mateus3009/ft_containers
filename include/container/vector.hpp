@@ -128,6 +128,12 @@ namespace ft
             ++_finish;
         }
 
+        void pop_back()
+        {
+            --_finish;
+            _alloc.destroy(_finish);
+        }
+
         void swap(ft::vector<value_type> &other)
         {
             std::swap(_start, other._start);
