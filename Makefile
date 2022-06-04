@@ -1,4 +1,4 @@
-namespaces		:= foo bar
+namespaces		:= std ft
 
 COMPILER		:= clang++
 COMPILER_FLAGS	:= -Wall -Wextra -Werror -g -std=c++98
@@ -30,7 +30,7 @@ endef
 
 $(foreach namespace, $(namespaces), $(eval $(call test_template,$(namespace))))
 
-test : fclean $(addprefix test_, $(namespaces))
+test : $(addprefix test_, $(namespaces))
 
 define object_template
 $(FOLDER_TARGET)/$(1)/$(FOLDER_SOURCE)/%.o : $(FOLDER_SOURCE)/%.cpp

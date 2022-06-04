@@ -11,7 +11,7 @@ struct test_container
     static std::map<std::string, test_function> tests;
     static bool register_test(std::string test, test_function result);
     static void run();
-    static void assert_test(bool condition, std::string message);
+    static void assert_true(bool condition, std::string message);
 };
 
 #define WHITE "\033[0m"
@@ -22,7 +22,7 @@ struct test_container
 #define __TO_STR__(x) __TO_STR__2(x)
 #define __LINE_STR__ __TO_STR__(__LINE__)
 
-#define ASSERT_TRUE(condition) test_container::assert_test(condition, __FILE__ ":" __LINE_STR__ " -> " #condition);
+#define ASSERT(condition) test_container::assert_true(condition, __FILE__ ":" __LINE_STR__ " -> " #condition);
 
 #ifndef NS
 #define NS foo
