@@ -55,6 +55,32 @@ namespace ft
 
         size_type max_size() const { return _alloc.max_size(); };
 
+        void resize(size_type n, const_reference val = value_type())
+        {
+            const size_type _size = size();
+            if (n <= _size)
+            {
+                _finish = _start + n;
+                return ;
+            }
+
+            const size_type _capacity = capacity();
+            const size_type required = n - _size;
+            if (n < _capacity)
+            {
+                std::uninitialized_fill_n(_finish, required, val);
+                return ;
+            }
+
+            const pointer new_start = _alloc.allocate(n);
+            pointer new_finish = std::uninitialized_copy(_start, _finish, new_start);
+            new_finish = std::uninitialized_fill_n(new_finish, required, val);
+            _alloc.deallocate(_start, _capacity);
+            _start = new_start;
+            _finish = new_finish;
+            _end_of_storage = _start + n;
+        };
+
         size_type capacity() const { return _end_of_storage - _start; };
 
         bool empty() const { return _finish == _start; };

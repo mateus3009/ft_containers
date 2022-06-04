@@ -210,3 +210,75 @@ TEST(vector, back_const)
 
     ASSERT(c == 42);
 }
+
+TEST(vector, resize_under_size)
+{
+    NS::vector<int> v(10, 42);
+
+    v.resize(5);
+
+    ASSERT(v.size() == 5);
+    ASSERT(v.capacity() == 10);
+}
+
+TEST(vector, resize_under_size_with_value)
+{
+    NS::vector<int> v(10, 42);
+
+    v.resize(5, 33);
+
+    ASSERT(v.size() == 5);
+    ASSERT(v.capacity() == 10);
+
+    for (int index = 0; index < 5; ++index)
+        ASSERT(v[index] == 42);
+}
+
+TEST(vector, resize_under_capacity)
+{
+    NS::vector<int> v(20);
+
+    v.resize(10);
+
+    ASSERT(v.size() == 10);
+    ASSERT(v.capacity() == 20);
+}
+
+TEST(vector, resize_under_capacity_with_value)
+{
+    NS::vector<int> v(20, 99);
+
+    v.resize(10, 22);
+
+    ASSERT(v.size() == 10);
+    ASSERT(v.capacity() == 20);
+
+    for (int index = 0; index < 10; ++index)
+        ASSERT(v[index] == 99);
+}
+
+TEST(vector, resize_over_capacity)
+{
+    NS::vector<int> v(10);
+
+    v.resize(20);
+
+    ASSERT(v.size() == 20);
+    ASSERT(v.capacity() == 20);
+}
+
+TEST(vector, resize_over_capacity_with_value)
+{
+    NS::vector<int> v(10, 4);
+
+    v.resize(20, 12);
+
+    ASSERT(v.size() == 20);
+    ASSERT(v.capacity() == 20);
+
+    for (int index = 0; index < 10; ++index)
+        ASSERT(v[index] == 4);
+
+    for (int index = 10; index < 20; ++index)
+        ASSERT(v[index] == 12);
+}
