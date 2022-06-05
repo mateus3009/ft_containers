@@ -881,3 +881,111 @@ TEST(vector, insert_fill_under_capacity)
     for (int index = 0; index < 12; ++index)
         ASSERT(a[index] == b[index])
 }
+
+TEST(vector, operator_equal_true)
+{
+    int arr[] = {1, 2, 3, 4, 5};
+
+    std::size_t size = sizeof(arr) / sizeof(int);
+
+    NS::vector<int> a(arr, arr + size);
+    NS::vector<int> b(arr, arr + size);
+
+    ASSERT(a == b)
+}
+
+TEST(vector, operator_equal_false_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(!(a == b))
+}
+
+TEST(vector, operator_equal_false_value)
+{
+    int aarr[] = {1, 2, 3, 5, 6};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(!(a == b))
+}
+
+TEST(vector, operator_less_false_equal)
+{
+    int arr[] = {1, 2, 3, 4, 5};
+
+    std::size_t size = sizeof(arr) / sizeof(int);
+
+    NS::vector<int> a(arr, arr + size);
+    NS::vector<int> b(arr, arr + size);
+
+    ASSERT(!(a < b))
+}
+
+TEST(vector, operator_less_true_value)
+{
+    int aarr[] = {1, 2, 3, 4, 0};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(a < b)
+}
+
+TEST(vector, operator_less_true_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(a < b)
+}
+
+TEST(vector, operator_less_false_value)
+{
+    int aarr[] = {1, 2, 3, 4, 0};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(!(b < a))
+}
+
+TEST(vector, operator_less_false_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    NS::vector<int> a(aarr, aarr + asize);
+    NS::vector<int> b(barr, barr + bsize);
+
+    ASSERT(!(b < a))
+}
