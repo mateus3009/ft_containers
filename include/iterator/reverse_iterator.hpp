@@ -6,7 +6,7 @@
 /*   By: msales-a <msales-a@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:10:21 by msales-a          #+#    #+#             */
-/*   Updated: 2022/05/29 15:48:58 by msales-a         ###   ########.fr       */
+/*   Updated: 2022/06/05 09:01:01 by msales-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,11 @@ namespace ft
     template <class U>
     reverse_iterator &operator=(const reverse_iterator<U> &other)
     {
-      _value = other._value;
-      return *this;
+        _value = other._value;
+        return *this;
     }
 
     iterator_type base() const { return _value; }
-
 
     reference operator*() const
     {

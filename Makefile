@@ -27,7 +27,7 @@ clean :
 
 define test_template
 test_$(1) : $(1)
-	@valgrind --leak-check=full -q ./$(1)
+	@valgrind --track-origins=yes --leak-check=full -q ./$(1)
 endef
 
 $(foreach namespace, $(namespaces), $(eval $(call test_template,$(namespace))))

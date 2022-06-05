@@ -40,7 +40,8 @@ namespace ft
 
         typedef typename allocator_type::size_type size_type;
 
-        explicit vector(allocator_type const &alloc = allocator_type()) : _alloc(alloc), _start(), _finish(), _end_of_storage(){};
+        explicit vector(allocator_type const &alloc = allocator_type()) :
+            _alloc(alloc), _start(), _finish(), _end_of_storage() {};
 
         explicit vector(size_type n, const_reference val = value_type(), allocator_type const &alloc = allocator_type()) : _alloc(alloc)
         {
@@ -55,6 +56,13 @@ namespace ft
         {
             _start = _alloc.allocate(last - first);
             _finish = std::uninitialized_copy(first, last, _start);
+            _end_of_storage = _finish;
+        };
+
+        vector(const vector &x) : _alloc(x._alloc)
+        {
+            _start = _alloc.allocate(x.size());
+            _finish = std::uninitialized_copy(x._start, x._finish, _start);
             _end_of_storage = _finish;
         };
 
@@ -76,21 +84,21 @@ namespace ft
             return *this;
         };
 
-        iterator begin() { return iterator(NULL); };
+        iterator begin() { return iterator(_start); };
 
-        iterator end() { return iterator(NULL); };
+        iterator end() { return iterator(_finish); };
 
         const_iterator begin() const { return const_iterator(_start); };
 
         const_iterator end() const { return const_iterator(_finish); };
 
-        reverse_iterator rbegin() { return reverse_iterator(iterator(_start)); };
+        reverse_iterator rbegin() { return reverse_iterator(begin()); };
 
-        reverse_iterator rend() { return reverse_iterator(iterator(_finish)); };
+        reverse_iterator rend() { return reverse_iterator(end()); };
 
-        const_reverse_iterator rbegin() const { return const_reverse_iterator(const_iterator(_start)); };
+        const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); };
 
-        const_reverse_iterator rend() const { return const_reverse_iterator(const_iterator(_finish)); };
+        const_reverse_iterator rend() const { return const_reverse_iterator(end()); };
 
         ~vector() { _alloc.deallocate(_start, _end_of_storage - _start); };
 
@@ -139,7 +147,7 @@ namespace ft
             _alloc.deallocate(_start, _capacity);
             _start = new_start;
             _finish = new_finish;
-            _end_of_storage = _start + n;
+            _end_of_storage = new_start + n;
         };
 
         reference operator[](size_type n) { return _start[n]; };
@@ -214,16 +222,8 @@ namespace ft
         void push_back(const_reference val)
         {
             const size_type _capacity = capacity();
-            if (size() == _capacity)
-            {
-                const size_type new_capacity = _capacity == 0 ? 1 : _capacity * 2;
-                const pointer new_start = _alloc.allocate(new_capacity);
-                const pointer new_finish = std::uninitialized_copy(_start, _finish, new_start);
-                _alloc.deallocate(_start, _capacity);
-                _start = new_start;
-                _finish = new_finish;
-                _end_of_storage = _start + new_capacity;
-            }
+            if (_capacity == size())
+                reserve(_capacity == 0 ? 1 : _capacity * 2);
             *_finish = val;
             ++_finish;
         }

@@ -57,6 +57,41 @@ TEST(vector, constructor_with_size_and_value_and_allocator)
         ASSERT(v[index] == 42);
 }
 
+TEST(vector, constructor_range)
+{
+    std::vector<int> v(10, 42);
+    NS::vector<int> v2(v.begin(), v.end());
+
+    ASSERT(v2.size() == 10)
+    ASSERT(v.capacity() == 10)
+    for (NS::vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
+        ASSERT(*it == 42)
+}
+
+TEST(vector, constructor_range_alloc)
+{
+    std::vector<int> v(10, 42);
+    std::allocator<int> alloc = std::allocator<int>();
+    NS::vector<int> v2(v.begin(), v.end(), alloc);
+
+    ASSERT(v2.size() == 10)
+    ASSERT(v.capacity() == 10)
+    ASSERT(v.get_allocator() == alloc)
+    for (NS::vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
+        ASSERT(*it == 42)
+}
+
+TEST(vector, constructor_copy)
+{
+    NS::vector<int> v(10, 42);
+    NS::vector<int> v2(v);
+
+    ASSERT(v2.size() == 10)
+    ASSERT(v.capacity() == 10)
+    for (NS::vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
+        ASSERT(*it == 42)
+}
+
 TEST(vector, max_size)
 {
     std::allocator<int> alloc;
@@ -155,7 +190,7 @@ TEST(vector, at_out_of_range)
         v.at(10);
         ASSERT(false);
     }
-    catch(const std::out_of_range& e)
+    catch (const std::out_of_range &e)
     {
         ASSERT(true)
     }
@@ -168,15 +203,14 @@ TEST(vector, at_out_of_range_const)
     try
     {
         NS::vector<int>::const_reference k = v.at(10);
-        (void) k;
+        (void)k;
         ASSERT(false);
     }
-    catch(const std::out_of_range& e)
+    catch (const std::out_of_range &e)
     {
         ASSERT(true)
     }
 }
-
 
 TEST(vector, front)
 {
@@ -193,7 +227,6 @@ TEST(vector, front_const)
 
     ASSERT(c == 42);
 }
-
 
 TEST(vector, back)
 {
@@ -461,397 +494,391 @@ TEST(vector, operator_equal_different_size_and_capacity_over)
 
 TEST(vector, pop_back2)
 {
-  NS::vector<int> v;
+    NS::vector<int> v;
 
-  v.push_back(1);
-  v.push_back(2);
-  v.push_back(3);
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
 
-  ASSERT(v.size() == 3)
-  ASSERT(v.capacity() == 4)
-  ASSERT(v[2] == 3)
+    ASSERT(v.size() == 3)
+    ASSERT(v.capacity() == 4)
+    ASSERT(v[2] == 3)
 
-  v.pop_back();
-  ASSERT(v.size() == 2)
-  ASSERT(v.capacity() == 4)
-  ASSERT(v[2] == 3)
+    v.pop_back();
+    ASSERT(v.size() == 2)
+    ASSERT(v.capacity() == 4)
+    ASSERT(v[2] == 3)
 
-  v.pop_back();
-  v.pop_back();
+    v.pop_back();
+    v.pop_back();
 
-  ASSERT(v.size() == 0)
-  ASSERT(v.capacity() == 4)
-  ASSERT(v[0] == 1)
-  ASSERT(v[1] == 2)
-  ASSERT(v[2] == 3)
+    ASSERT(v.size() == 0)
+    ASSERT(v.capacity() == 4)
+    ASSERT(v[0] == 1)
+    ASSERT(v[1] == 2)
+    ASSERT(v[2] == 3)
 }
 
 TEST(vector, clear2)
 {
-  NS::vector<int> v;
+    NS::vector<int> v;
 
-  v.push_back(1);
-  v.push_back(2);
-  v.push_back(3);
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
 
-  ASSERT(v.size() == 3)
-  ASSERT(v.capacity() == 4)
-  ASSERT(v[2] == 3)
+    ASSERT(v.size() == 3)
+    ASSERT(v.capacity() == 4)
+    ASSERT(v[2] == 3)
 
-  v.clear();
+    v.clear();
 
-  ASSERT(v.size() == 0)
-  ASSERT(v.capacity() == 4)
-  ASSERT(v[0] == 1)
-  ASSERT(v[1] == 2)
-  ASSERT(v[2] == 3)
+    ASSERT(v.size() == 0)
+    ASSERT(v.capacity() == 4)
+    ASSERT(v[0] == 1)
+    ASSERT(v[1] == 2)
+    ASSERT(v[2] == 3)
 }
 
 TEST(vector, begin2)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int>::iterator it = a.begin();
+    NS::vector<int>::iterator it = a.begin();
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(*it++ == index)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(*it++ == index)
 }
 
 TEST(vector, begin_const)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  const NS::vector<int> b(a);
+    const NS::vector<int> b(a);
 
-  NS::vector<int>::const_iterator it = b.begin();
+    NS::vector<int>::const_iterator it = b.begin();
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(*it++ == index)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(*it++ == index)
 }
 
 TEST(vector, end)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  const NS::vector<int> b(a);
+    const NS::vector<int> b(a);
 
-  NS::vector<int>::const_iterator it = b.end();
+    NS::vector<int>::const_iterator it = b.end();
 
-  for (int index = 9; index >= 0; --index)
-    ASSERT(*--it == index)
+    for (int index = 9; index >= 0; --index)
+        ASSERT(*--it == index)
 }
 
 TEST(vector, end_const)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int>::iterator it = a.end();
+    NS::vector<int>::iterator it = a.end();
 
-  for (int index = 9; index >= 0; --index)
-    ASSERT(*--it == index)
+    for (int index = 9; index >= 0; --index)
+        ASSERT(*--it == index)
 }
 
 TEST(vector, begin)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int> b;
+    NS::vector<int> b;
 
-  for (int index = 9; index >= 0; --index)
-    b.push_back(index);
+    for (int index = 9; index >= 0; --index)
+        b.push_back(index);
 }
 
 TEST(vector, rbegin)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int>::reverse_iterator it = a.rbegin();
+    NS::vector<int>::reverse_iterator it = a.rbegin();
 
-  for (int index = 9; index >= 0; --index)
-    ASSERT(*it++ == index)
+    (void)it;
 }
 
 TEST(vector, rbegin_const)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  const NS::vector<int> b(a);
+    const NS::vector<int> b(a);
 
-  NS::vector<int>::const_reverse_iterator it = b.rbegin();
+    NS::vector<int>::const_reverse_iterator it = b.rbegin();
 
-  for (int index = 9; index >= 0; --index)
-    ASSERT(*it++ == index)
+    (void)it;
 }
 
 TEST(vector, rend)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int>::reverse_iterator it = a.rend();
+    NS::vector<int>::reverse_iterator it = a.rend();
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(*--it == index)
+    (void)it;
 }
 
 TEST(vector, rend_const)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  const NS::vector<int> b(a);
+    const NS::vector<int> b(a);
 
-  NS::vector<int>::const_reverse_iterator it = b.rend();
+    NS::vector<int>::const_reverse_iterator it = b.rend();
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(*--it == index)
+    (void)it;
 }
 
 TEST(vector, assign_range)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int> b;
+    NS::vector<int> b;
 
-  b.assign(a.begin(), a.end());
+    b.assign(a.begin(), a.end());
 
-  ASSERT(b.size() == 10)
-  ASSERT(b.capacity() == 10)
+    ASSERT(b.size() == 10)
+    ASSERT(b.capacity() == 10)
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(b[index] == index)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(b[index] == index)
 }
 
 TEST(vector, assign_range_empty)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  NS::vector<int> b;
+    NS::vector<int> b;
 
-  b.assign(a.begin(), a.end());
+    b.assign(a.begin(), a.end());
 
-  ASSERT(b.size() == 0)
-  ASSERT(b.capacity() == 0)
+    ASSERT(b.size() == 0)
+    ASSERT(b.capacity() == 0)
 }
 
 TEST(vector, assign_range_under_capacity)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 5; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 5; ++index)
+        a.push_back(index);
 
-  NS::vector<int> b(10, 42);
+    NS::vector<int> b(10, 42);
 
-  b.assign(a.begin(), a.end());
+    b.assign(a.begin(), a.end());
 
-  ASSERT(b.size() == 5)
-  ASSERT(b.capacity() == 10)
+    ASSERT(b.size() == 5)
+    ASSERT(b.capacity() == 10)
 
-  for (int index = 0; index < 5; ++index)
-    ASSERT(b[index] == index)
+    for (int index = 0; index < 5; ++index)
+        ASSERT(b[index] == index)
 
-  for (int index = 5; index < 10; ++index)
-    ASSERT(b[index] == 42)
+    for (int index = 5; index < 10; ++index)
+        ASSERT(b[index] == 42)
 }
 
 TEST(vector, assign_range_over_capacity)
 {
-  NS::vector<int> a;
+    NS::vector<int> a;
 
-  for (int index = 0; index < 10; ++index)
-    a.push_back(index);
+    for (int index = 0; index < 10; ++index)
+        a.push_back(index);
 
-  NS::vector<int> b(5, 42);
+    NS::vector<int> b(5, 42);
 
-  b.assign(a.begin(), a.end());
+    b.assign(a.begin(), a.end());
 
-  ASSERT(b.size() == 10)
-  ASSERT(b.capacity() == 10)
+    ASSERT(b.size() == 10)
+    ASSERT(b.capacity() == 10)
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(b[index] == index)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(b[index] == index)
 }
 
 TEST(vector, assign_fill_zero)
 {
-  NS::vector<int> a(10, 42);
+    NS::vector<int> a(10, 42);
 
-  a.assign(0, 42);
+    a.assign(0, 42);
 
-  ASSERT(a.size() == 0)
-  ASSERT(a.capacity() == 10)
+    ASSERT(a.size() == 0)
+    ASSERT(a.capacity() == 10)
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(a[index] == 42)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(a[index] == 42)
 }
 
 TEST(vector, assign_fill)
 {
-  NS::vector<int> a(10, 42);
+    NS::vector<int> a(10, 42);
 
-  a.assign(10, 123);
+    a.assign(10, 123);
 
-  ASSERT(a.size() == 10)
-  ASSERT(a.capacity() == 10)
+    ASSERT(a.size() == 10)
+    ASSERT(a.capacity() == 10)
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(a[index] == 123)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(a[index] == 123)
 }
 
 TEST(vector, assign_fill_under_capacity)
 {
-  NS::vector<int> b(10, 42);
+    NS::vector<int> b(10, 42);
 
-  b.assign(5, 123);
+    b.assign(5, 123);
 
-  ASSERT(b.size() == 5)
-  ASSERT(b.capacity() == 10)
+    ASSERT(b.size() == 5)
+    ASSERT(b.capacity() == 10)
 
-  for (int index = 0; index < 5; ++index)
-    ASSERT(b[index] == 123)
+    for (int index = 0; index < 5; ++index)
+        ASSERT(b[index] == 123)
 
-  for (int index = 5; index < 10; ++index)
-    ASSERT(b[index] == 42)
+    for (int index = 5; index < 10; ++index)
+        ASSERT(b[index] == 42)
 }
 
 TEST(vector, assign_fill_over_capacity)
 {
-  NS::vector<int> b(5, 42);
+    NS::vector<int> b(5, 42);
 
-  b.assign(10, 123);
+    b.assign(10, 123);
 
-  ASSERT(b.size() == 10)
-  ASSERT(b.capacity() == 10)
+    ASSERT(b.size() == 10)
+    ASSERT(b.capacity() == 10)
 
-  for (int index = 0; index < 10; ++index)
-    ASSERT(b[index] == 123)
+    for (int index = 0; index < 10; ++index)
+        ASSERT(b[index] == 123)
 }
 
 TEST(vector, insert_single_element)
 {
-  NS::vector<int> a(10, 0);
+    NS::vector<int> a(10, 0);
 
-  a.insert(a.begin() + 2, 42);
+    a.insert(a.begin() + 2, 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  for (int index = 0; index < 11; ++index)
-    ASSERT(a[index] == 0 || (index == 2 && a[index] == 42))
+    for (int index = 0; index < 11; ++index)
+        ASSERT(a[index] == 0 || (index == 2 && a[index] == 42))
 }
 
 TEST(vector, insert_single_element_begin)
 {
-  NS::vector<int> a(10, 0);
+    NS::vector<int> a(10, 0);
 
-  a.insert(a.begin(), 42);
+    a.insert(a.begin(), 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  ASSERT(a[0] == 42)
-  for (int index = 1; index < 11; ++index)
-    ASSERT(a[index] == 0)
+    ASSERT(a[0] == 42)
+    for (int index = 1; index < 11; ++index)
+        ASSERT(a[index] == 0)
 }
 
 TEST(vector, insert_single_element_end)
 {
-  NS::vector<int> a(10, 0);
+    NS::vector<int> a(10, 0);
 
-  a.insert(a.end(), 42);
+    a.insert(a.end(), 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  ASSERT(a[10] == 42)
-  for (int index = 0; index < 9; ++index)
-    ASSERT(a[index] == 0)
+    ASSERT(a[10] == 42)
+    for (int index = 0; index < 9; ++index)
+        ASSERT(a[index] == 0)
 }
 
 TEST(vector, insert_fill)
 {
-  std::vector<int> a(10, 0);
+    std::vector<int> a(10, 0);
 
-  a.insert(a.begin() + 2, 1, 42);
+    a.insert(a.begin() + 2, 1, 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  for (int index = 0; index < 11; ++index)
-    ASSERT(a[index] == 0 || (index == 2 && a[index] == 42))
+    for (int index = 0; index < 11; ++index)
+        ASSERT(a[index] == 0 || (index == 2 && a[index] == 42))
 }
-
 
 TEST(vector, insert_fill_begin)
 {
-  NS::vector<int> a(10, 0);
+    NS::vector<int> a(10, 0);
 
-  a.insert(a.begin(), 1, 42);
+    a.insert(a.begin(), 1, 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  ASSERT(a[0] == 42)
-  for (int index = 1; index < 11; ++index)
-    ASSERT(a[index] == 0)
+    ASSERT(a[0] == 42)
+    for (int index = 1; index < 11; ++index)
+        ASSERT(a[index] == 0)
 }
 
 TEST(vector, insert_fill_end)
 {
-  NS::vector<int> a(10, 0);
+    NS::vector<int> a(10, 0);
 
-  a.insert(a.end(), 1, 42);
+    a.insert(a.end(), 1, 42);
 
-  ASSERT(a.size() == 11)
-  ASSERT(a.capacity() == 20)
+    ASSERT(a.size() == 11)
+    ASSERT(a.capacity() == 20)
 
-  ASSERT(a[10] == 42)
-  for (int index = 0; index < 9; ++index)
-    ASSERT(a[index] == 0)
+    ASSERT(a[10] == 42)
+    for (int index = 0; index < 9; ++index)
+        ASSERT(a[index] == 0)
 }
-
 
 TEST(vector, insert_fill_under_capacity)
 {
-  NS::vector<int> a(20);
+    NS::vector<int> a(20);
 
-  a.insert(a.begin() + 2, 5, 42);
+    a.insert(a.begin() + 2, 5, 42);
 
-  ASSERT(a.size() == 25)
-  ASSERT(a.capacity() == 40)
+    ASSERT(a.size() == 25)
+    ASSERT(a.capacity() == 40)
 
-  ASSERT(a[0] == 0)
-  ASSERT(a[1] == 0)
-  ASSERT(a[2] == 42)
-  for (int index = 3; index < 10; ++index)
-    ASSERT(a[index] == 0)
+    ASSERT(a[0] == 0)
+    ASSERT(a[1] == 0)
+    ASSERT(a[2] == 42)
+    for (int index = 3; index < 10; ++index)
+        ASSERT(a[index] == 0)
 }
