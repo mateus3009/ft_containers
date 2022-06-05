@@ -23,13 +23,13 @@ namespace ft
 
         typedef typename allocator_type::const_pointer const_pointer;
 
-        typedef void iterator;
+        typedef const void* iterator;
 
-        typedef void const_iterator;
+        typedef const void* const_iterator;
 
-        typedef void reverse_iterator;
+        typedef const void* reverse_iterator;
 
-        typedef void const_reverse_iterator;
+        typedef const void* const_reverse_iterator;
 
         typedef typename allocator_type::difference_type difference_type;
 
@@ -48,6 +48,40 @@ namespace ft
             _finish = std::uninitialized_fill_n(_start, n, val);
             _end_of_storage = _finish;
         };
+
+        vector &operator=(vector const& other)
+        {
+            if (this == &other)
+                return *this;
+            const size_type other_size = other.size();
+            const size_type this_capacity = capacity();
+            if (other_size > this_capacity)
+            {
+                pointer new_start = _alloc.allocate(other_size);
+                _alloc.deallocate(_start, this_capacity);
+                _start = new_start;
+                _finish = new_start + other_size;
+                _end_of_storage = _finish;
+            }
+            _finish = std::uninitialized_copy(other.begin(), other.end(), _start);
+            return *this;
+        };
+
+        iterator begin() { return iterator(NULL); };
+
+        iterator end() { return iterator(NULL); };
+
+        const_iterator begin() const { return const_iterator(NULL); };
+
+        const_iterator end() const { return const_iterator(NULL); };
+
+        reverse_iterator rbegin() { return reverse_iterator(NULL); };
+
+        reverse_iterator rend() { return reverse_iterator(NULL); };
+
+        const_reverse_iterator rbegin() const { return const_reverse_iterator(NULL); };
+
+        const_reverse_iterator rend() const { return const_reverse_iterator(NULL); };
 
         ~vector() { _alloc.deallocate(_start, _end_of_storage - _start); };
 

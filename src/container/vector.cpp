@@ -393,3 +393,68 @@ TEST(vector, reserve_over_capacity)
     ASSERT(v.capacity() == 50);
 }
 
+TEST(vector, operator_equal)
+{
+    NS::vector<int> v1(10, 24);
+    NS::vector<int> v2(10, 32);
+
+    v1 = v2;
+
+    ASSERT(v1.size() == 10);
+    ASSERT(v1.capacity() == 10);
+
+    for (int index = 0; index < 10; ++index)
+        ASSERT(v1[index] == 32);
+
+    ASSERT(v2.size() == 10);
+    ASSERT(v2.capacity() == 10);
+
+    for (int index = 0; index < 10; ++index)
+        ASSERT(v2[index] == 32);
+}
+
+TEST(vector, operator_equal_different_size_and_capacity)
+{
+    NS::vector<int> v1(8, 24);
+    NS::vector<int> v2(20, 32);
+
+    v1.reserve(50);
+
+    v2.resize(17);
+
+    v1 = v2;
+    ASSERT(v1.size() == 17);
+    ASSERT(v1.capacity() == 50);
+
+    for (int index = 0; index < 17; ++index)
+        ASSERT(v1[index] == 32);
+
+    ASSERT(v2.size() == 17);
+    ASSERT(v2.capacity() == 20);
+
+    for (int index = 0; index < 17; ++index)
+        ASSERT(v2[index] == 32);
+}
+
+TEST(vector, operator_equal_different_size_and_capacity_over)
+{
+    NS::vector<int> v1(20, 24);
+    NS::vector<int> v2(20, 32);
+
+    v2.reserve(50);
+
+    v1.resize(17);
+
+    v1 = v2;
+    ASSERT(v1.size() == 20);
+    ASSERT(v1.capacity() == 20);
+
+    for (int index = 0; index < 17; ++index)
+        ASSERT(v1[index] == 32);
+
+    ASSERT(v2.size() == 20);
+    ASSERT(v2.capacity() == 50);
+
+    for (int index = 0; index < 20; ++index)
+        ASSERT(v2[index] == 32);
+}
