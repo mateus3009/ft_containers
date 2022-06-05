@@ -989,3 +989,19 @@ TEST(vector, operator_less_false_size)
 
     ASSERT(!(b < a))
 }
+
+TEST(vector, non_member_swap)
+{
+    NS::vector<int> foo(5, 100);
+    NS::vector<int> bar(3, 200);
+
+    swap(foo, bar);
+
+    ASSERT(foo.size() == 3)
+    for (int index = 0; index < 3; ++index)
+        ASSERT(foo[index] == 200)
+
+    ASSERT(bar.size() == 5)
+    for (int index = 0; index < 5; ++index)
+        ASSERT(bar[index] == 100)
+}
