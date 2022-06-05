@@ -269,27 +269,29 @@ namespace ft
 
         void insert(iterator position, size_type n, const value_type &val)
         {
-            const std::size_t available = capacity() - size();
+            const size_type _size = size();
+            const size_type _capacity = capacity();
+            const std::size_t available = _capacity - _size;
 
             if (n <= available)
             {
                 std::uninitialized_copy(position, end(), position + n);
                 std::uninitialized_fill_n(position, n, val);
                 _finish += n;
-                return;
+                return ;
             }
 
-            const std::size_t new_capacity = capacity() == 0 ? 1 : size() * 2;
+            const std::size_t new_capacity = _capacity == 0 ? 1 : _capacity * 2;
             const pointer new_start = _alloc.allocate(new_capacity);
             pointer new_finish = std::uninitialized_copy(begin(), position, new_start);
             new_finish = std::uninitialized_fill_n(new_finish, n, val);
             new_finish = std::uninitialized_copy(position, end(), new_finish);
 
-            _alloc.deallocate(_start, size());
+            _alloc.deallocate(_start, _capacity);
 
             _start = new_start;
             _finish = new_finish;
-            _end_of_storage = new_finish;
+            _end_of_storage = new_start + new_capacity;
         };
 
         template <class InputIterator>

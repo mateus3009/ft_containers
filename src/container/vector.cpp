@@ -869,16 +869,15 @@ TEST(vector, insert_fill_end)
 
 TEST(vector, insert_fill_under_capacity)
 {
-    NS::vector<int> a(20);
+    int b[] = {9, 9, 4, 4, 4, 4, 4, 9, 9, 9, 9, 9};
 
-    a.insert(a.begin() + 2, 5, 42);
+    NS::vector<int> a(7, 9);
 
-    ASSERT(a.size() == 25)
-    ASSERT(a.capacity() == 40)
+    a.insert(a.begin() + 2, 5, 4);
 
-    ASSERT(a[0] == 0)
-    ASSERT(a[1] == 0)
-    ASSERT(a[2] == 42)
-    for (int index = 3; index < 10; ++index)
-        ASSERT(a[index] == 0)
+    ASSERT(a.size() == 12)
+    ASSERT(a.capacity() == 14)
+
+    for (int index = 0; index < 12; ++index)
+        ASSERT(a[index] == b[index])
 }
