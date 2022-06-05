@@ -8,8 +8,10 @@ FOLDER_SOURCE	:= src
 FOLDER_TARGET	:= .target
 
 FILE_SOURCE		:= $(filter %.cpp, $(shell find $(FOLDER_SOURCE) -type f))
-FILE_OBJECT		:= $(foreach namespace, $(namespaces), \
+FILE_OBJECT_TMP	:= $(foreach namespace, $(namespaces), \
 	$(addprefix $(FOLDER_TARGET)/$(namespace)/, $(FILE_SOURCE:.cpp=.o)))
+
+FILE_OBJECT		:= $(filter %/test_container.o,$(FILE_OBJECT_TMP)) $(filter-out %/test_container.o,$(FILE_OBJECT_TMP))
 
 .PHONY: all re fclean clean test
 
