@@ -126,3 +126,135 @@ TEST(stack, pop_deque)
 
     ASSERT(s.empty())
 }
+
+TEST(stack, operator_equal_true)
+{
+    int arr[] = {1, 2, 3, 4, 5};
+
+    std::size_t size = sizeof(arr) / sizeof(int);
+
+    std::vector<int> va(arr, arr + size);
+    std::vector<int> vb(arr, arr + size);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(a == b)
+}
+
+TEST(stack, operator_equal_false_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(!(a == b))
+}
+
+TEST(stack, operator_equal_false_value)
+{
+    int aarr[] = {1, 2, 3, 5, 6};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(!(a == b))
+}
+
+TEST(stack, operator_less_false_equal)
+{
+    int arr[] = {1, 2, 3, 4, 5};
+
+    std::size_t size = sizeof(arr) / sizeof(int);
+
+    std::vector<int> va(arr, arr + size);
+    std::vector<int> vb(arr, arr + size);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(!(a < b))
+}
+
+TEST(stack, operator_less_true_value)
+{
+    int aarr[] = {1, 2, 3, 4, 0};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(a < b)
+}
+
+TEST(stack, operator_less_true_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(a < b)
+}
+
+TEST(stack, operator_less_false_value)
+{
+    int aarr[] = {1, 2, 3, 4, 0};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(!(b < a))
+}
+
+TEST(stack, operator_less_false_size)
+{
+    int aarr[] = {1, 2, 3};
+    int barr[] = {1, 2, 3, 4, 5};
+
+    std::size_t asize = sizeof(aarr) / sizeof(int);
+    std::size_t bsize = sizeof(barr) / sizeof(int);
+
+    std::vector<int> va(aarr, aarr + asize);
+    std::vector<int> vb(barr, barr + bsize);
+
+    NS::stack<int, std::vector<int> > a(va);
+    NS::stack<int, std::vector<int> > b(vb);
+
+    ASSERT(!(b < a))
+}
