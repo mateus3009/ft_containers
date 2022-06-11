@@ -31,11 +31,11 @@ namespace ft
         void pop() { c.pop_back(); };
 
 
-        template <class T, class Container>
-        friend bool operator==(const stack<T, Container> &lhs, const stack<T, Container> &rhs);
+        template <class Type, class ContainerType>
+        friend bool operator==(const stack<Type, ContainerType> &lhs, const stack<Type, ContainerType> &rhs);
 
-        template <class T, class Container>
-        friend bool operator<(const stack<T, Container> &lhs, const stack<T, Container> &rhs);
+        template <class Type, class ContainerType>
+        friend bool operator<(const stack<Type, ContainerType> &lhs, const stack<Type, ContainerType> &rhs);
 
     protected:
         container_type c;
